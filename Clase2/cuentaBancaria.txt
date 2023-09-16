@@ -1,0 +1,10 @@
+1/9/2023
+Acreditación de Salario
+230000
+Debe
+
+1/9/2023
+Pago de Gas
+9000
+Haber
+
