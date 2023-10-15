@@ -3,12 +3,15 @@ using ParcialTP.Domain;
 using System;
 using System.Configuration;
 using System.Drawing;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace ParcialTP
 {
     public partial class LibrosManagement : System.Web.UI.Page
     {
         private AccesoLibros _librosData = new AccesoLibros(ConfigurationManager.ConnectionStrings["connection"].ToString());
+        private FileManagement _fileManagement;
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -16,6 +19,9 @@ namespace ParcialTP
             try
             {
                 //CargarLibros();
+                //Creamos un archivo de log
+                var path = this.Server.MapPath(".") + "/libro_management.log";
+                _fileManagement = new FileManagement(path);
             }
             catch (Exception ex)
             {
@@ -59,11 +65,16 @@ namespace ParcialTP
                     if (result != 0)
                     {
                         Title.Text = string.Empty;
+                        //CargarLibros();
+                        GridLibros.DataBind();
+
                         Message.Visible = true;
                         Message.Text = "¡Operación exitosa al agregar un libro!";
                         Message.ForeColor = Color.RoyalBlue;
-                        //CargarLibros();
-                        GridLibros.DataBind();
+
+                        // Registramos operación 
+                        var logData = $"[{DateTime.Now.ToString("F")}]: Se ha registrado un nuevo libro.";
+                        _fileManagement.WriteFile(logData);
                     }
                     else
                     {
@@ -78,6 +89,10 @@ namespace ParcialTP
                     Message.Visible = true;
                     Message.Text = ex.Message;
                     Message.ForeColor = Color.IndianRed;
+
+                    // Registramos error al registrar un nuevo libro
+                    var logData = $"[{DateTime.Now.ToString("F")}]: Error al agregar un nuevo libro. Error: { ex.Message }";
+                    _fileManagement.WriteFile(logData);
                 }
             }
         }
@@ -104,6 +119,10 @@ namespace ParcialTP
                         Message.Visible = true;
                         Message.Text = "¡Operación exitosa al actualizar los datos del libro!";
                         Message.ForeColor = Color.RoyalBlue;
+
+                        // Registramos operación
+                        var logData = $"[{DateTime.Now.ToString("F")}]: Se han actualizado los datos de libro.";
+                        _fileManagement.WriteFile(logData);
                     }
                     else
                     {
@@ -117,6 +136,10 @@ namespace ParcialTP
                     Message.Visible = true;
                     Message.Text = ex.Message;
                     Message.ForeColor = Color.IndianRed;
+
+                    // Registramos operación 
+                    var logData = $"[{DateTime.Now.ToString("F")}]: Error al actualizar los datos de un libro. Error: {ex.Message}";
+                    _fileManagement.WriteFile(logData);
                 }
             }
         }
@@ -141,6 +164,10 @@ namespace ParcialTP
                         Message.Visible = true;
                         Message.Text = "Nuevo género agregado exitosamente.";
                         Message.ForeColor = Color.RoyalBlue;
+
+                        // Registramos operación 
+                        var logData = $"[{DateTime.Now.ToString("F")}]: Se ha registrado un género.";
+                        _fileManagement.WriteFile(logData);
                     }
                     else
                     {
@@ -154,6 +181,10 @@ namespace ParcialTP
                     Message.Visible = true;
                     Message.Text = ex.Message;
                     Message.ForeColor = Color.IndianRed;
+
+                    // Registramos operación 
+                    var logData = $"[{DateTime.Now.ToString("F")}]: Error al agregar un nuevo género. Error: { ex.Message }";
+                    _fileManagement.WriteFile(logData);
                 }
             }
         }
@@ -163,12 +194,15 @@ namespace ParcialTP
             try
             {
                 var result = SQLDataSource_Generos.Delete();
-
                 if (result > 0)
                 {
                     Message.Visible = true;
                     Message.Text = "Género eliminado exitosamente.";
                     Message.ForeColor = Color.RoyalBlue;
+
+                    // REGISTRAMOS OPERACIÓN
+                    var logData = $"[{DateTime.Now.ToString("F")}]: Se ha eliminado un género.";
+                    _fileManagement.WriteFile(logData);
                 }
                 else
                 {
@@ -182,6 +216,10 @@ namespace ParcialTP
                 Message.Visible = true;
                 Message.Text = ex.Message;
                 Message.ForeColor = Color.IndianRed;
+
+                // REGISTRAMOS OPERACIÓN
+                var logData = $"[{DateTime.Now.ToString("F")}]: Error al eliminar un género libro. Error: {ex.Message}";
+                _fileManagement.WriteFile(logData);
             }
         }
 
