@@ -21,7 +21,7 @@
                                UpdateCommand="UPDATE [Cuentas] SET [descripcion] = @descripcion WHERE [id] = @id"
                                DeleteCommand="DELETE FROM [Cuentas] WHERE [id] = @id">
                 <DeleteParameters>
-                    <asp:ControlParameter ControlID="GridView_Cuentas" Name="id" PropertyName="SelectedValue" Type="Int32" />
+                    <asp:Parameter Name="id" Type="Int32" />
                 </DeleteParameters>
                 <InsertParameters>
                     <asp:ControlParameter ControlID="Descripcion"
