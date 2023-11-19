@@ -1,0 +1,42 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterPage.master.cs" Inherits="ParcialTP2.MasterPage" %>
+
+<!DOCTYPE html>
+<html>
+    <head runat="server" lang="es-ar">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title></title>
+        <asp:ContentPlaceHolder ID="head" runat="server"/>
+    </head>
+    <body>
+        <form id="form" runat="server">
+            <header>
+                <div>
+                    <ul style="list-style: none">
+                        <li><asp:HyperLink ID="HyperLink_Home"
+                                           runat="server"
+                                           NavigateUrl="~/HomeForm.aspx"
+                                           Text="Home"/></li>
+                        <li><asp:HyperLink ID="HyperLink_UserRegistrationForm"
+                                           runat="server"
+                                           NavigateUrl="~/UserRegistrationForm.aspx"
+                                           Text="Registrar usuarios"/></li>
+                        <li><asp:HyperLink ID="HyperLink_Downloads"
+                                           runat="server"
+                                           NavigateUrl="~/DownloadsForm.aspx"
+                                           Text="Downloads"/></li>
+                    </ul>
+                </div>
+            </header>
+            <main>
+                <div>
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
+                </div>
+            </main>
+            <footer>
+                <div>
+                    <p>Tecnicas de Programación IV - <asp:Label ID="lblYear" runat="server" Text="0000"/></p>
+                </div>
+            </footer>
+        </form>
+    </body>
+</html>
